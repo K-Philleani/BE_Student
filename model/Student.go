@@ -101,6 +101,7 @@ func (s *Student) GetStudentAll() (students []Student, err error) {
 	return
 }
 
+// 删除对应数据
 func (s *Student) DeleteStudent() (id int64, err error) {
 	sqlStr := `delete from stu_info where stu_no = ?`
 	stmt, err := db.SqlDB.Prepare(sqlStr)
@@ -112,6 +113,28 @@ func (s *Student) DeleteStudent() (id int64, err error) {
 		return
 	}
 	id, err = rs.LastInsertId()
+	if err != nil {
+		return
+	}
+	return
+}
+
+// 修改对应数据
+func (s *Student) UpdateStudent() (n int64, err error) {
+	sqlStr := `update stu_info set stu_name=?, stu_class=?, stu_sex=?, stu_age=?,
+			stu_major=?, stu_college=?, stu_phone=?, stu_city=? where stu_no=?`
+	stmt, err := db.SqlDB.Prepare(sqlStr)
+	if err != nil {
+		log.Println("预处理失败， err: ", err)
+		return
+	}
+
+	rs, err := stmt.Exec(s.StuName, s.StuClass, s.StuSex, s.StuAge, s.StuMajor, s.StuCollege, s.StuPhone, s.StuCity, s.StuNo)
+	if err != nil {
+		log.Println("数据修改失败, err: ", err)
+		return
+	}
+	n, err = rs.RowsAffected()
 	if err != nil {
 		return
 	}

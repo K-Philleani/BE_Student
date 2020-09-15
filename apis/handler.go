@@ -107,3 +107,46 @@ func DeleteStudent(c *gin.Context) {
 		"stu_no": id,
 	})
 }
+
+func UpdateStudent(c *gin.Context) {
+	StuNo, err := strconv.Atoi(c.Query("stu_no"))
+	if err != nil {
+		log.Println("数据处理失败, err: ", err)
+		return
+	}
+	StuName := c.Query("stu_name")
+	StuClass := c.Query("stu_class")
+	StuSex := c.Query("stu_sex")
+	StuAge, err := strconv.Atoi(c.Query("stu_age"))
+	if err != nil {
+		log.Println("数据处理失败, err: ", err)
+		return
+	}
+	StuMajor := c.Query("stu_major")
+	StuCollege := c.Query("stu_college")
+	StuPhone := c.Query("stu_phone")
+	StuCity := c.Query("stu_city")
+
+	student := model.Student{
+		StuNo: StuNo,
+		StuName: StuName,
+		StuClass: StuClass,
+		StuSex: StuSex,
+		StuAge: StuAge,
+		StuMajor: StuMajor,
+		StuCollege: StuCollege,
+		StuPhone: StuPhone,
+		StuCity: StuCity,
+	}
+
+	n, err := student.UpdateStudent()
+	if err != nil {
+		log.Println("数据更新失败， err: ", err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 1,
+		"message": "数据更新成功",
+		"Update_count": n,
+	})
+}

@@ -8,9 +8,14 @@ import (
 func Routers() *gin.Engine{
 	router := gin.Default()
 
-	router.POST("/student/insert", apis.AddStudent)
-	router.GET("/student/getIt", apis.GetStudentOne)
-	router.GET("/student/getAll", apis.GetStudentAll)
-	router.GET("/student/deleteIt", apis.DeleteStudent)
+	index := router.Group("/student")
+	{
+		index.POST("/insert", apis.AddStudent)
+		index.GET("/getIt", apis.GetStudentOne)
+		index.GET("/getAll", apis.GetStudentAll)
+		index.GET("/deleteIt", apis.DeleteStudent)
+		index.GET("/update", apis.UpdateStudent)
+	}
+
 	return router
 }
