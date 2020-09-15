@@ -147,6 +147,6 @@ func UpdateStudent(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 1,
 		"message": "数据更新成功",
-		"Update_count": n,
+		"update_count": n,
 	})
 }
