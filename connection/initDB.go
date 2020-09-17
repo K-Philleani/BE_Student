@@ -1,24 +1,19 @@
 package connection
 
 import (
-	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 	"log"
 )
 
-var SqlDB *sql.DB
+var DB *gorm.DB
+const dsn string = "root:123456@(124.70.71.78:3306)/Stitches"
 
 func init() {
 	var err error
-	dsn := "root:00000000@tcp(127.0.0.1:3306)/Student"
-	SqlDB, err = sql.Open("mysql", dsn)
+	DB, err = gorm.Open("mysql", dsn)
 	if err != nil {
-		log.Println("数据库连接失败， err: ", err)
-		return
+		panic(err)
 	}
-	err = SqlDB.Ping()
-	if err != nil {
-		log.Println("数据库连接失败, err: ", err)
-		return
-	}
+	log.Println(">>>>>>>>>>>>>>>>>>>数据库已连接.......<<<<<<<<<<<<<<<<<<<<")
 }
